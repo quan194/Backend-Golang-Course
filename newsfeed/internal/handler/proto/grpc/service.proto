@@ -1,0 +1,126 @@
+package grpc;
+
+option go_package = "ep.k16/newsfeed/internal/handler/proto/grpc";
+
+service Service {
+  rpc Signup(SignupRequest) returns (SignupResponse) {}
+  rpc Login(LoginRequest) returns (LoginResponse) {}
+
+  rpc Follow(FollowRequest) returns (FollowResponse) {}
+  rpc Unfollow(UnfollowRequest) returns (UnfollowResponse) {}
+  rpc GetFollowers(GetFollowersRequest) returns (GetFollowersResponse) {}
+  rpc GetFollowings(GetFollowingsRequest) returns (GetFollowingsResponse) {}
+
+  rpc CreatePost(CreatePostRequest) returns (CreatePostResponse) {}
+  rpc GetPosts(GetPostsRequest) returns (GetPostsResponse) {}
+  rpc GetNewsfeed(GetNewsfeedRequest) returns (GetNewsfeedResponse) {}
+}
+
+message UserData {
+  required int64 id = 1;
+  required string user_name = 2;
+  required string display_name = 3;
+  required string email = 4;
+  required string dob = 5;
+}
+
+message FollowData {
+  optional UserData follower = 1;
+  optional UserData following = 2;
+  required int64 follow_timestamp = 3;
+}
+
+message SignupRequest {
+  required string user_name = 1;
+  required string password = 2;
+  required string display_name = 3;
+  required string email = 4;
+  required string dob = 5;
+}
+
+message SignupResponse {
+  required UserData user = 1;
+}
+
+message LoginRequest {
+  required string user_name = 1;
+  required string password = 2;
+}
+
+message LoginResponse {
+  required UserData user = 1;
+}
+
+message UserUserData {
+  required int64 id = 1;
+  required int64 follower_id = 2;
+  required int64 following_id = 3;
+  required int64 follow_ts = 4;
+}
+
+message FollowRequest {
+  required int64 user_id = 1;
+  required int64 peer_id = 2;
+}
+
+message FollowResponse {
+  required bool is_followed = 1;
+  required UserUserData pair = 2;
+  required UserData following = 3;
+}
+
+message UnfollowRequest {
+  required int64 user_id = 1;
+  required int64 peer_id = 2;
+}
+
+message UnfollowResponse {
+  required bool is_unfollowed = 1;
+}
+
+message FollowPaging {
+  required int64 last_value = 1;
+  required int64 limit = 2;
+}
+
+message GetFollowersRequest {
+  required int64 user_id = 1;
+  required FollowPaging paging = 2;
+}
+
+message GetFollowersResponse {
+  repeated FollowData followers = 1;
+}
+
+message GetFollowingsRequest {
+  required int64 user_id = 1;
+  required FollowPaging paging = 2;
+}
+
+message GetFollowingsResponse {
+  repeated FollowData followings = 1;
+}
+
+message CreatePostRequest {
+
+}
+
+message CreatePostResponse {
+
+}
+
+message GetPostsRequest {
+
+}
+
+message GetPostsResponse {
+
+}
+
+message GetNewsfeedRequest {
+
+}
+
+message GetNewsfeedResponse {
+
+}
